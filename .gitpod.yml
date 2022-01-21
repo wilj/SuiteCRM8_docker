@@ -1,0 +1,21 @@
+image:
+  file: .gitpod/Dockerfile
+
+tasks:
+  - name: init
+    command: ./.gitpod/init.sh
+
+ports:
+  - port: 8080
+    visibility: private
+    onOpen: notify
+  - port: 8025
+    visibility: private
+    onOpen: notify
+  - port: 8181
+    visibility: private
+    onOpen: notify
+  - port: 3306
+    visibility: private
+    onOpen: ignore
+  

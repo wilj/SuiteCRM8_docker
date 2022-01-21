@@ -1,56 +1,66 @@
 version: "3.8"
 services:
   suitecrm:
-    build: ./
-    image: suitecrm:latest
-    networks:
-      - suitecrm_net
+    build: ./suitecrm/
     volumes:
       #SuiteCRM Application Folder
-      - ./www:/var/www/html
+      - apache_www_html:/var/www/html
       #SuiteCRM Log Folder
-      - ./logs/SuiteCRM:/var/www/html/SuiteCRM/logs
-      #PHP config
-      - ./docker/config/php/php.ini:/etc/php/7.4/apache2/php.ini
-      #APACHE config
-      - ./docker/config/apache/apache2.conf:/etc/apache2/apache2.conf
-      - ./docker/config/apache/sites.conf:/etc/apache2/sites-enabled/sites.conf
-      #APACHE Log Folder
-      - ./logs/apache:/var/log/apache2/  
-    env_file:
-      - environment/sample.env
-      #- environment/.env
+      - suitecrm_logs:/var/www/html/SuiteCRM/logs
+      - apache_logs:/var/log/apache2/  
+    environment:
+      - ROOT_URL=${ROOT_URL}
+      - MARIADB_USER=suitecrm
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_DATABASE=suitecrm
+      - MARIADB_HOST=mariadb_crm
+      - DEFAULT_ADMIN_USER=${DEFAULT_ADMIN_USER}
+      - DEFAULT_ADMIN_PASSWORD=${DEFAULT_ADMIN_PASSWORD}
+      - INSTALL_DEMO_DATA=${INSTALL_DEMO_DATA}
+      - ENV_NAME=${ENV_NAME}
+      - SMTP_HOST=mailhog
+      - SMTP_PORT=1025
+      - SMTP_FROM_ADDRESS=suitecrm@example.com
+      - SMTP_FROM_NAME=SuiteCRM
     ports:
-      - "80:80"
-    labels:
-      - me.titmus.authors="jon@titmus.me"
+      - "8080:80"
+    depends_on:
+      - mariadb_crm
 
-  mysql_crm:
-    image: mysql
+  mariadb_crm:
+    image: mariadb:10.7
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=suitecrm
-      - MYSQL_USER=suitecrm
-      - MYSQL_PASSWORD=suitecrm
-      - MYSQL_DATABASE=suitecrm
+      - MARIADB_ROOT_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_USER=suitecrm
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_DATABASE=suitecrm
     volumes:
-      - ./docker/data/mysql:/var/lib/mysql
-    networks:
-      - suitecrm_net
+      - mariadb_data:/var/lib/mysql
   
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     links:
-      - mysql_crm
+      - mariadb_crm
     ports:
       - 8181:80
     environment:
-      - PMA_HOST=mysql_crm
+      - PMA_HOST=mariadb_crm
       - PMA_USER=suitecrm
-      - PMA_PASSWORD=suitecrm
-    networks:
-      - suitecrm_net
-networks:
-    suitecrm_net:
-        driver: bridge
+      - PMA_PASSWORD=${MARIADB_PASSWORD}
+      - PMA_ABSOLUTE_URI=${PMA_ABSOLUTE_URI}
+    depends_on:
+      - mariadb_crm
+
+  mailhog:
+    image: cd2team/mailhog
+    init: true
+    ports:
+      - 8025:8025
+    
+volumes:
+  mariadb_data:
+  apache_logs:
+  apache_www_html:
+  suitecrm_logs:

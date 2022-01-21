@@ -1,30 +1,25 @@
-# Docker Image for SuiteCRM 8
+# SuiteCRM 8 Docker
 
-1. Install Docker 1.29 or later, alternatively Install Docker Desktop where available and skip to 3
+This project is a fork of [https://github.com/jontitmus-code/SuiteCRM8_docker](https://github.com/jontitmus-code/SuiteCRM8_docker) with automated installation and configuration.
 
-2. Install Docker-Compose 20 or later
+## [Click here to try it now on Gitpod.io](https://gitpod.io/#https://github.com/wilj/SuiteCRM8_docker)
 
-3. Clone this repo
+The Gitpod workspace configuration will automatically build, install, and run SuiteCRM, MariaDB, phpMyAdmin, and MailHog.
 
-4. Download and unzip SuiteCRM 8 into the www folder, ensuring to name the folder "SuiteCRM", you can download it from here: https://docs.suitecrm.com/8.x/admin/releases/8.0/#_8_0_1
+As the services are launched, their ports will be exposed via HTTPS, and notifications will appear:
 
-4. Run docker-compose up -d
-from root folder created when the repo is cloned,
-and wait for images to be pulled and containers to be created
+![Open port notifications](docs/images/suitecrm-gitpod-ports-screenshot.png)
 
-5. Apache server should already listed on port 80 (`http://localhost`)
+The ports can be accessed at any time from the port list:
+![Open port list](docs/images/suitecrm-gitpod-ports-list-screenshot.png)
 
-6. To complete installation run `docker exec -it suitecrm_suitecrm_1 /bin/bash` to access the web server container. The installation can then be run using the command stored in `./helper/SuiteCRM install.txt`. This will setup SuiteCRM using recommended values for config as well as a default admin user.
->**TIP** \
->Along with the Web Server and MYSQL, you will also find phpMyAdmin running at `http://localhost:8181` \
->Username and password to access SuiteCRM 8 is `admin` | `admin`\
->The hostname of the db is `mysql_crm`. (You need this Information, if you want to configure the crm with over the webinterface)
+phpMyAdmin may throw errors if browsed to before the database is fully populated.
 
-> **REMEMBER** \
-> For a non test/local environment don't forget to change the username and password of the admin user to something that only you know and can remember!
+## Logging In
 
+The initial admin user name and password can be set by environment variable:
 
+    DEFAULT_ADMIN_USER
+    DEFAULT_ADMIN_PASSWORD
 
-
-
-
+If the default user/password variables are blank or unset, they will default to "admin" and a randomly generated password will be printed to the log output with the text "Using generated admin password \<password\>"

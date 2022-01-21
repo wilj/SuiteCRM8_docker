@@ -4,13 +4,7 @@
         AllowOverride All
         Require all granted
     </Directory>
-        ServerName localhost
+        ServerName $SERVER_NAME
         DocumentRoot /var/www/html/SuiteCRM/public
 
 </VirtualHost>
-
-# <VirtualHost *:443>
-#       ServerName localhost
-#        SSLEngine on
-#        DocumentRoot /app/www
-#</VirtualHost>
