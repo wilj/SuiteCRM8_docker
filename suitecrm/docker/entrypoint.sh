@@ -112,7 +112,6 @@ set -u
 
 if [ $CONFIG_SMTP = "yes" ]; then
   echo "Configuring SMTP..."
-# # BEGIN TODO COMMENTS
 
   mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<..EOF
     update config 
