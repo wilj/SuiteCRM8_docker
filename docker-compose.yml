@@ -7,7 +7,8 @@ services:
       - apache_www_html:/var/www/html
       #SuiteCRM Log Folder
       - suitecrm_logs:/var/www/html/SuiteCRM/logs
-      - apache_logs:/var/log/apache2/  
+      - apache_logs:/var/log/apache2
+      - php_logs:/var/log/php
     environment:
       - ROOT_URL=${ROOT_URL}
       - MARIADB_USER=suitecrm
@@ -61,6 +62,7 @@ services:
     
 volumes:
   mariadb_data:
-  apache_logs:
   apache_www_html:
+  apache_logs:
+  php_logs:
   suitecrm_logs:

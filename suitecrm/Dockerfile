@@ -35,6 +35,7 @@ RUN export DEBIAN_FRONTEND='noninteractive' \
         less \
         git \
         mariadb-client \
+        xtail \
     && rm -rf /var/lib/apt/lists/*
 
 

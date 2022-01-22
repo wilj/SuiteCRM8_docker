@@ -149,5 +149,9 @@ fi
 
 echo "Starting apache"
 apachectl restart
-sleep 5
-tail -f /var/log/apache2/*
+
+# tail all the log files
+xtail \
+  /var/log/apache2/* \
+  /var/log/php/* \
+  /var/www/html/SuiteCRM/logs/*
