@@ -94,56 +94,56 @@ else
     --no-interaction \
     -vv
 
-  echo "Silent install complete"
+  echo "SuiteCRM installer completed"
   chown -R www-data:www-data /var/www
   echo "Permissions set on /var/www"
-fi
 
-echo "Checking SMTP settings..."
-set +u
-CONFIG_SMTP="no"
-if [ -z "$SMTP_HOST" ]; then
-  echo "SMTP_HOST not set. Skipping SMTP setup."
-else
-  echo "Using SMTP_HOST $SMTP_HOST"
-  CONFIG_SMTP="yes"
-fi
-set -u
+  echo "Checking SMTP settings..."
+  set +u
+  CONFIG_SMTP="no"
+  if [ -z "$SMTP_HOST" ]; then
+    echo "SMTP_HOST not set. Skipping SMTP setup."
+  else
+    echo "Using SMTP_HOST $SMTP_HOST"
+    CONFIG_SMTP="yes"
+  fi
+  set -u
 
-if [ $CONFIG_SMTP = "yes" ]; then
-  echo "Configuring SMTP..."
+  if [ $CONFIG_SMTP = "yes" ]; then
+    echo "Configuring SMTP..."
 
-  mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<..EOF
-    update config 
-    set value = '$SMTP_FROM_ADDRESS'
-    where category = 'notify'
-      and name = 'fromaddress';
-..EOF
+    mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<....EOF
+      update config 
+      set value = '$SMTP_FROM_ADDRESS'
+      where category = 'notify'
+        and name = 'fromaddress';
+....EOF
 
-  mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<..EOF
-    update config 
-    set value = '$SMTP_FROM_NAME'
-    where category = 'notify'
-      and name = 'fromname';
-..EOF
-  
-  mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<..EOF
-    insert into config 
-      (category, name, value) values
-      ('notify', 'allow_default_outbound','2');
-..EOF
+    mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<....EOF
+      update config 
+      set value = '$SMTP_FROM_NAME'
+      where category = 'notify'
+        and name = 'fromname';
+....EOF
+    
+    mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<....EOF
+      insert into config 
+        (category, name, value) values
+        ('notify', 'allow_default_outbound','2');
+....EOF
 
-  mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<..EOF
-    update outbound_email set 
-      mail_smtpauth_req = 0,
-      mail_smtpserver = '$SMTP_HOST',
-      mail_smtpport = '$SMTP_PORT',
-      smtp_from_name = '$SMTP_FROM_NAME',
-      smtp_from_addr = '$SMTP_FROM_ADDRESS'
-    where name = 'system'
-      and type = 'system';
-..EOF
+    mysql --user="$MARIADB_USER" --password="$MARIADB_PASSWORD" --host="$MARIADB_HOST" "$MARIADB_DATABASE" <<....EOF
+      update outbound_email set 
+        mail_smtpauth_req = 0,
+        mail_smtpserver = '$SMTP_HOST',
+        mail_smtpport = '$SMTP_PORT',
+        smtp_from_name = '$SMTP_FROM_NAME',
+        smtp_from_addr = '$SMTP_FROM_ADDRESS'
+      where name = 'system'
+        and type = 'system';
+....EOF
 
+  fi
 fi
 
 
