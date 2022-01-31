@@ -19,7 +19,7 @@ fi
 
 if [ -z "$DEFAULT_ADMIN_PASSWORD" ]; then
   echo "DEFAULT_ADMIN_PASSWORD environment variable not set"
-  ADMIN_PASSWORD=$(randompassword 8)
+  ADMIN_PASSWORD=$(randompassword 16)
   echo "Using generated admin password '$ADMIN_PASSWORD'"
 else
   ADMIN_PASSWORD=$DEFAULT_ADMIN_PASSWORD

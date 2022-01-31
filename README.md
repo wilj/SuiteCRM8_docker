@@ -2,7 +2,24 @@
 
 This project is a fork of [https://github.com/jontitmus-code/SuiteCRM8_docker](https://github.com/jontitmus-code/SuiteCRM8_docker) with automated installation and configuration.
 
-## [Click here to try it now on Gitpod.io](https://gitpod.io/#https://github.com/wilj/SuiteCRM8_docker)
+---
+
+## Run locally
+
+To run this project locally, either Docker + Docker Compose, or Vagrant + Virtualbox are required.
+
+### Docker + Docker Compose
+    # edit localhost.env to change any desired settings, then:
+    ./run-localhost.sh
+
+
+### Vagrant + Virtualbox
+    # cd into the project root folder where the Vagrant file is located
+    vagrant up
+---
+## Run instantly on Gitpod
+
+### [Click here to try it now on Gitpod.io](https://gitpod.io/#https://github.com/wilj/SuiteCRM8_docker)
 
 The Gitpod workspace configuration will automatically build, install, and run SuiteCRM, MariaDB, phpMyAdmin, and MailHog.
 
@@ -14,6 +31,22 @@ The ports can be accessed at any time from the port list:
 ![Open port list](docs/images/suitecrm-gitpod-ports-list-screenshot.png)
 
 phpMyAdmin may throw errors if browsed to before the database is fully populated.
+
+---
+
+## Accessing services
+
+The following ports are forwarded:
+
+* 8080 - SuiteCRM
+* 8025 - MailHog web interface
+  * This project preconfigures SuiteCRM to use the local MailHog SMTP server.
+  * Emails are not persisted on restart.
+* 8181 - phpMyAdmin
+  * Preconfigured to connect to SuiteCRM database.
+* 3306 - MariaDB
+
+---
 
 ## Logging In
 

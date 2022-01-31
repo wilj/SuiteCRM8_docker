@@ -7,7 +7,9 @@ Thumbs.db
 vendor/.git
 .env*.php*
 .idea
+.env
 
+.vagrant/
 environment/*
 www/*
 logs/*
