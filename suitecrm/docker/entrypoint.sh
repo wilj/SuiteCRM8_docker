@@ -48,7 +48,7 @@ if [[ -d "$INSTALL_DIR/public" ]]; then
   echo "SuiteCRM already installed at $INSTALL_DIR"
 else
   TMPFILE=/tmp/suitecrm.zip
-  wget -q https://suitecrm.com/files/147/SuiteCRM-8.0/596/SuiteCRM-8.0.1.zip -O $TMPFILE
+  wget -q https://suitecrm.com/suitecrm/files/SuiteCRM-8.0.3.zip -O $TMPFILE
   mkdir -p $INSTALL_DIR
   unzip -q $TMPFILE -d $INSTALL_DIR/
   rm $TMPFILE
