@@ -29,7 +29,6 @@ RUN export DEBIAN_FRONTEND='noninteractive' \
         php7.4-xml php7.4-mbstring zlib1g-dev libxml2-dev \
         wget \
         unzip \
-        nodejs npm \
         gettext-base \
         vim \
         less \
@@ -41,8 +40,6 @@ RUN export DEBIAN_FRONTEND='noninteractive' \
 
 RUN a2enmod rewrite
 RUN a2enconf php7.4-fpm
-
-RUN npm install -g @angular/cli yarn
 
 copy ./docker/config/php/php.ini /etc/php/7.4/apache2/php.ini
 copy ./docker/config/fpm/php.ini /etc/php/7.4/fpm/php.ini
