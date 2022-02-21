@@ -5,7 +5,7 @@ tasks:
   - name: init
     command: ./.gitpod/init.sh
   - name: flvoters
-    command: cd dolthub && dolt clone wilj/flvoters && cd flvoters && (dolt sql < ../voter_detail_export_sql)
+    command: cd dolthub && dolt clone wilj/flvoters && cd flvoters && (dolt sql < ../voter_detail_export.sql)
 
 ports:
   - port: 8080
