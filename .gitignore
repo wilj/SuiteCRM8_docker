@@ -19,3 +19,4 @@ docker/data/*
 !docker/data/.gitkeep
 !logs/.gitkeep
 !environment/sample.env
+dolthub/flvoters

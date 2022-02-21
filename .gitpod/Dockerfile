@@ -13,6 +13,8 @@ RUN export DEBIAN_FRONTEND='noninteractive' \
         tldr \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash
+
 USER gitpod
 
 RUN mkdir -p /home/gitpod/.bashrc.d
