@@ -13,7 +13,9 @@ RUN export DEBIAN_FRONTEND='noninteractive' \
         tldr \
     && rm -rf /var/lib/apt/lists/*
 
-RUN echo "Installing doltdb" && (curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash)
+#RUN curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash
+# install dolt from source
+RUN cd ~ && git clone https://github.com/dolthub/dolt && cd dolt/go && go install ./cmd/dolt
 
 USER gitpod
 
