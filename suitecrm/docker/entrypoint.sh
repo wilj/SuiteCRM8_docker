@@ -43,17 +43,22 @@ cat /etc/apache2/sites-enabled/sites.conf.template \
   | envsubst \
   | tee $SITES_CONF
 
+echo "Waiting for database..."
+timeout 60 sh -c 'until mysqladmin ping --host=$0 --user=$1 --password="$2" --port=3306 2> /dev/null; do sleep 1; done' $MARIADB_HOST $MARIADB_USER "$MARIADB_PASSWORD"
+
+
 INSTALL_DIR=/var/www/html/SuiteCRM
 if [[ -d "$INSTALL_DIR/public" ]]; then
   echo "SuiteCRM already installed at $INSTALL_DIR"
 else
   TMPFILE=/tmp/suitecrm.zip
-  wget -q https://suitecrm.com/files/147/SuiteCRM-8.0/613/SuiteCRM-8.0.4.zip -O $TMPFILE
+  wget -q https://suitecrm.com/files/147/SuiteCRM-8.1/618/SuiteCRM-8.1.0.zip -O $TMPFILE
   mkdir -p $INSTALL_DIR
   unzip -q $TMPFILE -d $INSTALL_DIR/
   rm $TMPFILE
 
   chmod +x $INSTALL_DIR/bin/console
+
   echo "Running silent install with ROOT_URL ${ROOT_URL}"
   # 
   #   Install the application
