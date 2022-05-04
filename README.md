@@ -14,7 +14,7 @@ To run this project locally, either Docker + Docker Compose, or Vagrant + Virtua
 
 
 ### Vagrant + Virtualbox
-    # cd into the project root folder where the Vagrant file is located
+    # cd into the project root folder where the Vagrantfile is located
     vagrant up
 ---
 ## Run instantly on Gitpod
